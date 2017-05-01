@@ -1,5 +1,5 @@
 """
-Bandit Class defines a Multi-Armed bandit
+Bandit Class defines a Multi-Armed bandit.
 """
 
 import numpy as np
