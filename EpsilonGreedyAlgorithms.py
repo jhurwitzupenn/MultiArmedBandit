@@ -12,7 +12,7 @@ class EpsilonGreedyAlgorithm(Strategy):
         cumPayouts = np.zeros(bandit.K)
         cumPlays = np.zeros(bandit.K)
         sampleMeans = np.zeros(bandit.K)
-        for t in xrange(T):
+        for t in range(T):
             if (np.random.random() > 1 - self._epsilon):
                 index, arm = bandit.getRandomArm()
             else:
