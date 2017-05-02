@@ -2,7 +2,7 @@ import numpy as np
 from Strategy import Strategy
 
 
-class EpsilonGreedyAlgorithm(Strategy):
+class EpsilonGreedyStrategy(Strategy):
     """docstring for EpsilonGreedyAlgorithm"""
     def __init__(self, epsilon):
         self._epsilon = epsilon
