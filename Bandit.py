@@ -24,13 +24,21 @@ class Bandit(object):
             if not isinstance(dist, Distribution):
                 raise TypeError("Must pass in Distribution Iterable")
 
-        self.arms = _vArm(dists)
-        self.K = self.arms.size
+        self._arms = _vArm(dists)
+        self.K = self._arms.size
         self._optimalMean = max(dists, key=lambda d: d.getMean()).getMean()
+
+    def getPayout(self, armIndex): 
+        if (armIndex >= self.K): 
+            raise IndexError("Arm index is out of bounds")
+        return self._arms[armIndex].payout()
+
+    def getRandomIndex(self): 
+        return np.random.randint(0, self.K)
 
     def getOptimalStrategyPayout(self, T):
         return T * self._optimalMean
 
     def getRandomArm(self):
         index = np.random.randint(0, self.K)
-        return index, self.arms[index]
+        return index, self._arms[index]
