@@ -14,9 +14,11 @@ class UCB1Strategy(Strategy):
             if (t < bandit.K):
                 index = t
             else:
-                summand = np.sqrt(np.divide((2 * np.log(t)), cumPlays)
+                summands = np.sqrt(np.divide((2 * np.log(t)), cumPlays))
+                scores = sampleMeans + summands
+                index = np.argmax(scores)
 
-            payout = arm.payout()
+            payout = bandit.getPayout(index);
             cumPayouts[index] += payout
             cumPlays[index] += 1
             payoutPerStep[t] = payout
