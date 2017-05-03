@@ -54,6 +54,7 @@ class Bandit(object):
         totalRegret = 0
         for t in range(steps):
             choice = plays[t]
-            regretPerStep[t] = self._optimalMean - self._arms[choice].getMean()
+            regretPerStep[t] = np.subtract(self._optimalMean,
+                                           self._arms[int(choice)].getMean())
             totalRegret += regretPerStep[t]
         return regretPerStep, totalRegret
