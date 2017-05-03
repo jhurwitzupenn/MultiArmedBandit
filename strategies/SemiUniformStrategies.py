@@ -4,7 +4,7 @@ from Strategy import Strategy
 
 class EpsilonGreedyStrategy(Strategy):
     """docstring for EpsilonGreedyAlgorithm"""
-    
+
     def __init__(self, epsilon):
         self._epsilon = epsilon
 
@@ -26,10 +26,11 @@ class EpsilonGreedyStrategy(Strategy):
             sampleMeans[index] = np.divide(cumPayouts[index], cumPlays[index])
 
         return np.sum(payoutPerStep), payoutPerStep
-        
-class ExploreThenExploit(Strategy):
+
+
+class ExploreThenCommit(Strategy):
     """docstring for ExploreThenExploit"""
-    
+
     def __init__(self, exploreDepth):
         self._exploreDepth = exploreDepth
 
@@ -39,15 +40,15 @@ class ExploreThenExploit(Strategy):
         cumPlays = np.zeros(bandit.K)
         sampleMeans = np.zeros(bandit.K)
         for t in range(T):
-            if t < self._exploreDepth*bandit.K:
+            if (t < self._exploreDepth * bandit.K):
                 index = t % bandit.K
-                
+
             payout = bandit.getPayout(index)
             cumPayouts[index] += payout
             cumPlays[index] += 1
             payoutPerStep[t] = payout
             sampleMeans[index] = np.divide(cumPayouts[index], cumPlays[index])
-            if t == self._exploreDepth*bandit.K - 1:
+            if (t == self._exploreDepth * bandit.K - 1):
                 index = np.argmax(sampleMeans)
 
         return np.sum(payoutPerStep), payoutPerStep
