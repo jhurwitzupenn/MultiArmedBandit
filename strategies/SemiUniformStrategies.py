@@ -4,6 +4,7 @@ from Strategy import Strategy
 
 class EpsilonGreedyStrategy(Strategy):
     """docstring for EpsilonGreedyAlgorithm"""
+    
     def __init__(self, epsilon):
         self._epsilon = epsilon
 
@@ -14,14 +15,14 @@ class EpsilonGreedyStrategy(Strategy):
         sampleMeans = np.zeros(bandit.K)
         for t in range(T):
             if (np.random.random() > 1 - self._epsilon):
-                index = bandit.getRandomIndex();
+                index = bandit.getRandomIndex()
             else:
                 index = np.argmax(sampleMeans)
 
-            payout = bandit.getPayout(index);
+            payout = bandit.getPayout(index)
             cumPayouts[index] += payout
             cumPlays[index] += 1
             payoutPerStep[t] = payout
             sampleMeans[index] = np.divide(cumPayouts[index], cumPlays[index])
 
-        return payoutPerStep
+        return np.sum(payoutPerStep), payoutPerStep
