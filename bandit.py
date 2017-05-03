@@ -14,6 +14,9 @@ class _Arm(object):
     def payout(self):
         return self._dist.getSample()
 
+    def getMean(self):
+        return self._dist.getMean()
+
 
 _vArm = np.vectorize(_Arm)
 
@@ -44,3 +47,13 @@ class Bandit(object):
     def getRandomArm(self):
         index = np.random.randint(0, self.K)
         return index, self._arms[index]
+
+    def getRegret(self, plays):
+        steps = plays.size
+        regretPerStep = np.zeros(steps)
+        totalRegret = 0
+        for t in range(steps):
+            choice = plays[t]
+            regretPerStep[t] = self._optimalMean - self._arms[choice].getMean()
+            totalRegret += regretPerStep[t]
+        return regretPerStep, totalRegret

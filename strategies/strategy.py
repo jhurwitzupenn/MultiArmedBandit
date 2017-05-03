@@ -5,6 +5,6 @@ class Strategy:
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    # Returns a tuple of total payout and payouts at each step of the algorithm
+    # Returns a tuple of sequence of plays, payout per step, and total payout
     def run(self, T, bandit):
         pass
