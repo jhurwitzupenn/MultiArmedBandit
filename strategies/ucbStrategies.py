@@ -1,6 +1,5 @@
 import numpy as np
 import math as math
-from functools import partial
 from strategy import Strategy
 
 
@@ -8,6 +7,7 @@ class UCB1Strategy(Strategy):
     """docstring for EpsilonGreedyAlgorithm"""
 
     def run(self, T, bandit):
+        plays = np.zeros(T)
         payoutPerStep = np.zeros(T)
         cumPayouts = np.zeros(bandit.K)
         cumPlays = np.zeros(bandit.K)
@@ -20,13 +20,14 @@ class UCB1Strategy(Strategy):
                 scores = sampleMeans + summands
                 index = np.argmax(scores)
 
+            plays[t] = index
             payout = bandit.getPayout(index)
             cumPayouts[index] += payout
             cumPlays[index] += 1
             payoutPerStep[t] = payout
             sampleMeans[index] = np.divide(cumPayouts[index], cumPlays[index])
 
-        return np.sum(payoutPerStep), payoutPerStep
+        return plays, payoutPerStep, np.sum(payoutPerStep)
 
 
 class UCB2Strategy(Strategy):
@@ -43,7 +44,7 @@ class UCB2Strategy(Strategy):
         return np.sqrt(np.divide(dividend, divisor))
 
     def run(self, T, bandit):
-
+        plays = np.zeros(T)
         payoutPerStep = np.zeros(T)
         cumPayouts = np.zeros(bandit.K)
         cumPlays = np.zeros(bandit.K)
@@ -51,6 +52,7 @@ class UCB2Strategy(Strategy):
         epochs = np.zeros(bandit.K)
 
         for index in range(bandit.K):
+            plays[index] = index
             payout = bandit.getPayout(index)
             cumPayouts[index] += payout
             cumPlays[index] += 1
@@ -73,9 +75,10 @@ class UCB2Strategy(Strategy):
                 payoutPerStep[t] = payout
                 sampleMeans[index] = np.divide(cumPayouts[index],
                                                cumPlays[index])
+                plays[t] = index
                 t += 1
                 if (t >= T):
                     break
             epochs[index] += 1
 
-        return np.sum(payoutPerStep), payoutPerStep
+        return plays, payoutPerStep, np.sum(payoutPerStep)
