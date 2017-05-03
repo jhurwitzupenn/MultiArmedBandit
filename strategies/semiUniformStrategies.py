@@ -9,6 +9,7 @@ class EpsilonGreedyStrategy(Strategy):
         self._epsilon = epsilon
 
     def run(self, T, bandit):
+        plays = np.zeros(T)
         payoutPerStep = np.zeros(T)
         cumPayouts = np.zeros(bandit.K)
         cumPlays = np.zeros(bandit.K)
@@ -19,13 +20,14 @@ class EpsilonGreedyStrategy(Strategy):
             else:
                 index = np.argmax(sampleMeans)
 
+            plays[t] = index
             payout = bandit.getPayout(index)
             cumPayouts[index] += payout
             cumPlays[index] += 1
             payoutPerStep[t] = payout
             sampleMeans[index] = np.divide(cumPayouts[index], cumPlays[index])
 
-        return np.sum(payoutPerStep), payoutPerStep
+        return plays, payoutPerStep, np.sum(payoutPerStep)
 
 
 class ExploreThenCommit(Strategy):
@@ -35,6 +37,7 @@ class ExploreThenCommit(Strategy):
         self._exploreDepth = exploreDepth
 
     def run(self, T, bandit):
+        plays = np.zeros(T)
         payoutPerStep = np.zeros(T)
         cumPayouts = np.zeros(bandit.K)
         cumPlays = np.zeros(bandit.K)
@@ -43,6 +46,7 @@ class ExploreThenCommit(Strategy):
             if (t < self._exploreDepth * bandit.K):
                 index = t % bandit.K
 
+            plays[t] = index
             payout = bandit.getPayout(index)
             cumPayouts[index] += payout
             cumPlays[index] += 1
@@ -51,4 +55,4 @@ class ExploreThenCommit(Strategy):
             if (t == self._exploreDepth * bandit.K - 1):
                 index = np.argmax(sampleMeans)
 
-        return np.sum(payoutPerStep), payoutPerStep
+        return plays, payoutPerStep, np.sum(payoutPerStep)

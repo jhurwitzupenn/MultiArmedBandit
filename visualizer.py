@@ -26,3 +26,17 @@ class Visualizer(object):
         plt.ylabel('Cumulative Payout')
 
         return plt
+
+    def graphCumulativeRegrets(self, bandit, T=1000):
+        x = range(T)
+        for algorithm in self._algorithms:
+            plays, _, _ = algorithm.run(T, bandit)
+            plt.plot(x, np.cumsum(bandit.getRegrets(plays)))
+
+        if (self._labels):
+            plt.legend(self._labels)
+
+        plt.xlabel('Iterations')
+        plt.ylabel('Cumulative Regret')
+
+        return plt
