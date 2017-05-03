@@ -1,5 +1,5 @@
 import numpy as np
-from Strategy import Strategy
+from strategy import Strategy
 
 
 class EpsilonGreedyStrategy(Strategy):

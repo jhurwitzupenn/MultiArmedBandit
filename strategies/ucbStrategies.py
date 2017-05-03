@@ -1,5 +1,5 @@
 import numpy as np
-from Strategy import Strategy
+from strategy import Strategy
 
 
 class UCB1Strategy(Strategy):
@@ -18,7 +18,7 @@ class UCB1Strategy(Strategy):
                 scores = sampleMeans + summands
                 index = np.argmax(scores)
 
-            payout = bandit.getPayout(index);
+            payout = bandit.getPayout(index)
             cumPayouts[index] += payout
             cumPlays[index] += 1
             payoutPerStep[t] = payout

@@ -20,6 +20,7 @@ class Distribution:
 
 class Binomial(Distribution):
     """docstring for _Binomial"""
+
     def __init__(self, n, p):
         self._mean = n * p
         self._binom = partial(np.random.binomial, n=n, p=p)
@@ -30,8 +31,10 @@ class Binomial(Distribution):
     def getMean(self):
         return self._mean
 
+
 class Gaussian(Distribution):
     """docstring for _Gaussian"""
+
     def __init__(self, loc, scale):
         self._mean = loc
         self._gaussian = partial(np.random.normal, loc=loc, scale=scale)
@@ -41,11 +44,13 @@ class Gaussian(Distribution):
 
     def getMean(self):
         return self._mean
-        
+
+
 class Uniform(Distribution):
     """docstring for _Uniform"""
+
     def __init__(self, low, high):
-        self._mean = (low + high)/2
+        self._mean = (low + high) / 2
         self._uniform = partial(np.random.uniform, low=low, high=high)
 
     def getSample(self):

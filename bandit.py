@@ -2,11 +2,12 @@
 Bandit Class defines a Multi-Armed bandit.
 """
 import numpy as np
-from Distributions import Distribution
+from distributions import Distribution
 
 
 class _Arm(object):
     """docstring for _Arm"""
+
     def __init__(self, dist):
         self._dist = dist
 
@@ -19,6 +20,7 @@ _vArm = np.vectorize(_Arm)
 
 class Bandit(object):
     """docstring for Bandit"""
+
     def __init__(self, dists):
         for dist in dists:
             if not isinstance(dist, Distribution):
@@ -28,12 +30,12 @@ class Bandit(object):
         self.K = self._arms.size
         self._optimalMean = max(dists, key=lambda d: d.getMean()).getMean()
 
-    def getPayout(self, armIndex): 
-        if (armIndex >= self.K): 
+    def getPayout(self, armIndex):
+        if (armIndex >= self.K):
             raise IndexError("Arm index is out of bounds")
         return self._arms[armIndex].payout()
 
-    def getRandomIndex(self): 
+    def getRandomIndex(self):
         return np.random.randint(0, self.K)
 
     def getOptimalStrategyPayout(self, T):
