@@ -4,37 +4,54 @@ import numpy as np
 
 class Visualizer(object):
 
-    def __init__(self, algorithms, labels=None):
+    def __init__(self, algorithms, labels):
         if (labels):
             if (len(labels) != len(algorithms)):
                 raise ValueError("labels must be same length as algorithms")
         self._algorithms = algorithms
         self._labels = labels
+        self._isRun = False
 
-    def graphCumulativePayouts(self, bandit, T=1000, showOptimal=False):
-        x = range(T)
+    def run(self, T, bandit):
+        self._isRun = True
+        self._bandit = bandit
+        self._T = T
+        self._playsSequences = []
+        self._payoutSequences = []
         for algorithm in self._algorithms:
-            plt.plot(x, np.cumsum(algorithm.run(T, bandit)[1]))
+            plays, payoutPerStep, _ = algorithm.run(T, bandit)
+            self._playsSequences.append(plays)
+            self._payoutSequences.append(payoutPerStep)
+
+    def graphCumulativePayouts(self, showOptimal=False):
+        if not (self._isRun):
+            raise ValueError("Run the visualizer first")
+
+        x = range(self._T)
+        for payout in self._payoutSequences:
+            plt.plot(x, np.cumsum(payout))
 
         if (showOptimal):
-            plt.plot(x, np.linspace(0, bandit.getOptimalStrategyPayout(T), T))
-
-        if (self._labels):
+            optimalPayout = self._bandit.getOptimalStrategyPayout(self._T)
+            plt.plot(x, np.linspace(0, optimalPayout, self._T))
             plt.legend(self._labels + ['optimal'])
+        else:
+            plt.legend(self._labels)
 
         plt.xlabel('Iterations')
         plt.ylabel('Cumulative Payout')
 
         return plt
 
-    def graphCumulativeRegrets(self, bandit, T=1000):
-        x = range(T)
-        for algorithm in self._algorithms:
-            plays, _, _ = algorithm.run(T, bandit)
-            plt.plot(x, np.cumsum(bandit.getRegrets(plays)))
+    def graphCumulativeRegrets(self):
+        if not (self._isRun):
+            raise ValueError("Run the visualizer first")
 
-        if (self._labels):
-            plt.legend(self._labels)
+        for plays in self._playsSequences:
+            plt.plot(range(self._T),
+                     np.cumsum(self._bandit.getRegret(plays)[0]))
+
+        plt.legend(self._labels)
 
         plt.xlabel('Iterations')
         plt.ylabel('Cumulative Regret')
