@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy as np
 from abc import ABCMeta, abstractmethod
 from functools import partial
@@ -25,6 +26,30 @@ class Binomial(Distribution):
 
     def getSample(self):
         return self._binom()
+
+    def getMean(self):
+        return self._mean
+
+class Gaussian(Distribution):
+    """docstring for _Gaussian"""
+    def __init__(self, loc, scale):
+        self._mean = loc
+        self._gaussian = partial(np.random.normal, loc=loc, scale=scale)
+
+    def getSample(self):
+        return self._gaussian()
+
+    def getMean(self):
+        return self._mean
+        
+class Uniform(Distribution):
+    """docstring for _Uniform"""
+    def __init__(self, low, high):
+        self._mean = (low + high)/2
+        self._uniform = partial(np.random.uniform, low=low, high=high)
+
+    def getSample(self):
+        return self._uniform()
 
     def getMean(self):
         return self._mean
