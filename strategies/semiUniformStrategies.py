@@ -30,11 +30,11 @@ class EpsilonGreedyStrategy(Strategy):
         return plays, payoutPerStep, np.sum(payoutPerStep)
 
 
-class ExploreThenCommit(Strategy):
+class EpsilonFirstStrategy(Strategy):
     """docstring for ExploreThenExploit"""
 
-    def __init__(self, exploreDepth):
-        self._exploreDepth = exploreDepth
+    def __init__(self, epsilon):
+        self._epsilon = epsilon
 
     def run(self, T, bandit):
         plays = np.zeros(T)
@@ -42,9 +42,10 @@ class ExploreThenCommit(Strategy):
         cumPayouts = np.zeros(bandit.K)
         cumPlays = np.zeros(bandit.K)
         sampleMeans = np.zeros(bandit.K)
+        exploreRounds = T * self._epsilon
         for t in range(T):
-            if (t < self._exploreDepth * bandit.K):
-                index = t % bandit.K
+            if (t < exploreRounds):
+                index = bandit.getRandomIndex()
 
             plays[t] = index
             payout = bandit.getPayout(index)
@@ -52,7 +53,7 @@ class ExploreThenCommit(Strategy):
             cumPlays[index] += 1
             payoutPerStep[t] = payout
             sampleMeans[index] = np.divide(cumPayouts[index], cumPlays[index])
-            if (t == self._exploreDepth * bandit.K - 1):
+            if (t == exploreRounds - 1):
                 index = np.argmax(sampleMeans)
 
         return plays, payoutPerStep, np.sum(payoutPerStep)
