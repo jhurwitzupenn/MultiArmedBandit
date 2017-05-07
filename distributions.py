@@ -19,7 +19,15 @@ class Distribution:
 
 
 class Binomial(Distribution):
-    """docstring for _Binomial"""
+    """
+    Description:
+       Binomial Distribution class that can get the mean and a random sample
+       from a binomial distribution
+
+    Parameters:
+        n : Number of trials
+        p : Probability of success
+    """
 
     def __init__(self, n, p):
         self._mean = n * p
@@ -33,7 +41,15 @@ class Binomial(Distribution):
 
 
 class Gaussian(Distribution):
-    """docstring for _Gaussian"""
+    """
+    Description:
+       Gaussian Distribution class that can get the mean and a random sample
+       from a gausssian distribution
+
+    Parameters:
+        loc : Mean of the distribution
+        scale : Variance of the distribution
+    """
 
     def __init__(self, loc, scale):
         self._mean = loc
@@ -47,7 +63,15 @@ class Gaussian(Distribution):
 
 
 class Uniform(Distribution):
-    """docstring for _Uniform"""
+    """
+    Description:
+       Uniform Distribution class that can get the mean and a random sample
+       from a uniform distribution
+
+    Parameters:
+        low : Lower boundry of output interval
+        high : Upper boundry of output interval
+    """
 
     def __init__(self, low, high):
         self._mean = (low + high) / 2
