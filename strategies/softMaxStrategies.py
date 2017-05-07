@@ -16,16 +16,16 @@ class SoftMaxStrategyFixed(Strategy):
         sampleMeans = np.zeros(bandit.K)
         cumProbability = np.zeros(bandit.K)
         divisor = bandit.K
-        for t in range(T):  
-            numerators = np.exp(sampleMeans/self._temperature)
+        for t in range(T):
+            numerators = np.exp(sampleMeans / self._temperature)
             cumProbability = np.divide(numerators, divisor)
-            
+
             p = np.random.uniform(0, 1)
             for i in range(bandit.K):
                 p = p - cumProbability[i]
                 if (p <= 0):
                     index = i
-                    
+
             divisor = sum(numerators)
             plays[t] = index
             payout = bandit.getPayout(index)
@@ -35,4 +35,3 @@ class SoftMaxStrategyFixed(Strategy):
             sampleMeans[index] = np.divide(cumPayouts[index], cumPlays[index])
 
         return plays, payoutPerStep, np.sum(payoutPerStep)
-
