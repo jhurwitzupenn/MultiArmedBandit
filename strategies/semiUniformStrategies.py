@@ -6,8 +6,8 @@ from strategy import Strategy
 class EpsilonGreedyStrategy(Strategy):
     """
     Description:
-        The EpsilonGreedyStrategy picks a lever uniformly at random with 
-        probability epsilon, and picks the level with the largest sample mean 
+        The EpsilonGreedyStrategy picks a lever uniformly at random with
+        probability epsilon, and picks the level with the largest sample mean
         with probability 1 - epsilon.
 
     Parameters:
@@ -37,7 +37,7 @@ class EpsilonGreedyStrategy(Strategy):
             sampleMeans[index] = np.divide(cumPayouts[index], cumPlays[index])
 
         return plays, payoutPerStep, np.sum(payoutPerStep)
-        
+
 
 class EpsilonFirstStrategy(Strategy):
     """
@@ -59,10 +59,14 @@ class EpsilonFirstStrategy(Strategy):
         cumPayouts = np.zeros(bandit.K)
         cumPlays = np.zeros(bandit.K)
         sampleMeans = np.zeros(bandit.K)
-        exploreRounds = T * self._epsilon
+        exploreRounds = np.ceil(T * self._epsilon)
+        index = 0
         for t in range(T):
             if (t < exploreRounds):
                 index = bandit.getRandomIndex()
+
+            if (t == exploreRounds - 1):
+                index = np.argmax(sampleMeans)
 
             plays[t] = index
             payout = bandit.getPayout(index)
@@ -70,7 +74,5 @@ class EpsilonFirstStrategy(Strategy):
             cumPlays[index] += 1
             payoutPerStep[t] = payout
             sampleMeans[index] = np.divide(cumPayouts[index], cumPlays[index])
-            if (t == exploreRounds - 1):
-                index = np.argmax(sampleMeans)
 
         return plays, payoutPerStep, np.sum(payoutPerStep)
