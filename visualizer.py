@@ -57,3 +57,17 @@ class Visualizer(object):
         plt.ylabel('Cumulative Regret')
 
         return plt
+
+    def graphPerStepRegret(self):
+        if not (self._isRun):
+            raise ValueError("Run the visualizer first")
+
+        for plays in self._playsSequences:
+            plt.plot(self._bandit.getRegret(plays)[0])
+
+        plt.legend(self._labels)
+
+        plt.xlabel('Iterations')
+        plt.ylabel('Per Step Regret')
+
+        return plt
