@@ -72,11 +72,19 @@ class Visualizer(object):
             raise ValueError("Run the visualizer first")
 
         for plays in self._playsSequences:
-            plt.plot(self._bandit.getRegret(plays)[0])
+            regretPerStep, _ = self._bandit.getRegret(plays)
+            windowSize = int(plays.size / 10)
+            smoothedRegretPerStep = movingAverage(regretPerStep, windowSize)
+            plt.plot(smoothedRegretPerStep[windowSize + 1:])
 
         plt.legend(self._labels)
 
         plt.xlabel('Iterations')
-        plt.ylabel('Per Step Regret')
+        plt.ylabel('Per Step Regret (' + str(int(windowSize)) + '-windowed)')
 
         return plt
+
+
+def movingAverage(interval, window_size):
+    window = np.ones(window_size) / float(window_size)
+    return np.convolve(interval, window, 'same')
