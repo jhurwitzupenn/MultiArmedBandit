@@ -3,7 +3,17 @@ from strategy import Strategy
 
 
 class SoftMaxStrategyFixed(Strategy):
-    """docstring for SoftMaxStrategy"""
+    """
+    Description:
+        The SoftMaxStrategFixed the probability of exploring a lever is 
+        weighted by its sample mean so exploration is only semi-random, 
+        favoring the exploration of good levers. This algorithm weights the 
+        probability of choosing an arm by the boltzmann distribution which 
+        takes depends on the sample mean and a temperature constant.
+
+    Parameters:
+        temperature : parameter of the boltzmann function
+    """
 
     def __init__(self, temperature):
         self._temperature = temperature

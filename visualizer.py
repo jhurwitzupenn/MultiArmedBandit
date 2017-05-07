@@ -6,8 +6,8 @@ class Visualizer(object):
     """
     Description:
        The Visualizer class is a graphing class that can graph cumulative 
-       payouts and cumulative regrets of a user inputted set of algorithms and
-       bandit.
+       payouts, cumulative regrets, and regret per step of a user inputted set 
+       of algorithms and bandit.
 
     Parameters:
         algorithms : The algorithms to be visualized

@@ -4,7 +4,11 @@ from strategy import Strategy
 
 
 class UCB1Strategy(Strategy):
-    """docstring for EpsilonGreedyAlgorithm"""
+    """
+    Description:
+        UCB1Strategy picks arms based on sample means and the estimated size of
+        the confidence interval of average rewards. No parameters taken in.
+    """
 
     def run(self, T, bandit):
         plays = np.zeros(T)
@@ -31,6 +35,14 @@ class UCB1Strategy(Strategy):
 
 
 class UCB2Strategy(Strategy):
+    """
+    Description:
+        UCB2Strategy picks arms based on sample means and the estimated size of
+        the confidence interval of average rewards.
+        
+        Parameters:
+            alpha: Regulates the width of the confidence intervals
+    """
 
     def __init__(self, alpha):
         self._alpha = alpha
