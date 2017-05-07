@@ -6,7 +6,14 @@ from distributions import Distribution
 
 
 class _Arm(object):
-    """docstring for _Arm"""
+    """
+    Description:
+        The _Arm class is a wrapper for a distribution and represents the 
+        lever of a slot machine
+
+    Parameters:
+        dist : The distribution that is wrapped by the arm
+    """
 
     def __init__(self, dist):
         self._dist = dist
@@ -22,7 +29,16 @@ _vArm = np.vectorize(_Arm)
 
 
 class Bandit(object):
-    """docstring for Bandit"""
+    """
+    Description:
+        The Bandit class has multiple arms that each contain a distribution.
+        The User interacts with the bandit class and can pull predetermined or
+        random levers. The Bandit keeps track of the optimal strategy and can 
+        return the regret of a lever pull.
+
+    Parameters:
+        dists : The distributions that correspond to each arm of the bandit
+    """
 
     def __init__(self, dists):
         for dist in dists:
