@@ -8,7 +8,7 @@ from distributions import Distribution
 class _Arm(object):
     """
     Description:
-        The _Arm class is a wrapper for a distribution and represents the 
+        The _Arm class is a wrapper for a distribution and represents the
         lever of a slot machine
 
     Parameters:
@@ -33,7 +33,7 @@ class Bandit(object):
     Description:
         The Bandit class has multiple arms that each contain a distribution.
         The User interacts with the bandit class and can pull predetermined or
-        random levers. The Bandit keeps track of the optimal strategy and can 
+        random levers. The Bandit keeps track of the optimal strategy and can
         return the regret of a lever pull.
 
     Parameters:

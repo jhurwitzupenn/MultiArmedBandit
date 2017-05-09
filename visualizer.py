@@ -5,14 +5,15 @@ import numpy as np
 class Visualizer(object):
     """
     Description:
-       The Visualizer class is a graphing class that can graph cumulative 
-       payouts, cumulative regrets, and regret per step of a user inputted set 
+       The Visualizer class is a graphing class that can graph cumulative
+       payouts, cumulative regrets, and regret per step of a user inputted set
        of algorithms and bandit.
 
     Parameters:
         algorithms : The algorithms to be visualized
         labels : names of the algorithms
     """
+
     def __init__(self, algorithms, labels):
         if (labels):
             if (len(labels) != len(algorithms)):
